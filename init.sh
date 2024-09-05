@@ -18,7 +18,7 @@ if [ ! -f "/home/tezos/.tezos-smart-rollup-node/is_imported" ]; then
 
     echo "Downloading and importing Etherlink snapshot..."
     curl -L $ETH_GHOSTNET_SNAPSHOT -o eth-ghostnet.archive
-    octez-smart-rollup-node snapshot import eth-ghostnet.archive --data-dir /home/tezos/.tezos-smart-rollup-node
+    octez-smart-rollup-node snapshot import eth-ghostnet.archive --data-dir /home/tezos/.tezos-smart-rollup-node --endpoint $OCTEZ_RPC_NODE
     rm eth-ghostnet.archive
 
     touch /home/tezos/.tezos-smart-rollup-node/is_imported
