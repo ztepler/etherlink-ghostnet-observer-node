@@ -1,2 +1,7 @@
-`docker build -t ghostnet-observer .`
-`docker run -it --name ghostnet-observer ghostnet-observer`
+- `docker build -t ghostnet-observer .`
+- `docker run -it --name ghostnet-observer ghostnet-observer`
+- `docker tag ghostnet-observer ztepler/ghostnet-observer`
+- `docker push ztepler/ghostnet-observer`
+- `docker compose up -d`
+- `docker-compose logs -f`
+- `docker compose down -v`
