@@ -4,9 +4,7 @@
 
 ARG OCTEZ_TAG=master
 FROM tezos/tezos-bare:${OCTEZ_TAG} AS octez
-# RUN apk update && apk add --no-cache curl tar
-COPY init.sh /home/tezos/init.sh
-WORKDIR /home/tezos
-# RUN chown -R tezos:tezos /home/tezos
 USER tezos
+WORKDIR /home/tezos
+COPY --chown=tezos:tezos init.sh /home/tezos/init.sh
 CMD ["/bin/sh", "/home/tezos/init.sh"]

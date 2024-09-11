@@ -2,14 +2,49 @@
 #
 # SPDX-License-Identifier: MIT
 
-version: '3.8'
+version: "3.8"
 
 services:
   observer-node:
     image: ztepler/ghostnet-observer
+
     environment:
       - WASM_GHOSTNET_SNAPSHOT=https://snapshots.eu.tzinit.org/etherlink-ghostnet/wasm-ghostnet.tar.gz
       - ETH_GHOSTNET_SNAPSHOT=https://snapshots.eu.tzinit.org/etherlink-ghostnet/eth-ghostnet.archive
       - OCTEZ_RPC_NODE=https://rpc.tzkt.io/ghostnet
       - ROLLUP_ADDRESS=sr18wx6ezkeRjt1SZSeZ2UQzQN3Uc3YLMLqg
+
+    networks:
+      - traefik-slave
+
+    volumes:
+      - ghostnet-observer-data:/home/tezos
+
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - ingress=true
+        - traefik.enable=true
+        - traefik.docker.network=traefik-slave
+        - traefik.http.services.${ETHERLINK_OBSERVER_NODE}.loadbalancer.server.port=8932
+        - traefik.http.routers.${ETHERLINK_OBSERVER_NODE}.rule=Host(`${ETHERLINK_OBSERVER_NODE_HOST}`)
+        - traefik.http.routers.${ETHERLINK_OBSERVER_NODE}.entrypoints=http,ingress
+      placement: &placement
+        constraints:
+          - node.hostname == ${NODE_HOSTNAME}
+
+    logging: &logging
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "10"
+        tag: "{{.Name}}.{{.ImageID}}"
+
+networks:
+  traefik-slave:
+    external: true
+
+volumes:
+  ghostnet-observer-data:
 
