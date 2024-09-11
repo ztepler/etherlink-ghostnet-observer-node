@@ -7,4 +7,5 @@ FROM tezos/tezos-bare:${OCTEZ_TAG} AS octez
 USER tezos
 WORKDIR /home/tezos
 COPY --chown=tezos:tezos init.sh /home/tezos/init.sh
+EXPOSE 8932
 CMD ["/bin/sh", "/home/tezos/init.sh"]

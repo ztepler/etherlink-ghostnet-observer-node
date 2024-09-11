@@ -26,4 +26,4 @@ else
     echo "Snapshot already imported. Skipping download."
 fi
 
-exec octez-smart-rollup-node --endpoint $OCTEZ_RPC_NODE run --mode observer --rollup $ROLLUP_ADDRESS --history-mode archive
+exec octez-smart-rollup-node --endpoint $OCTEZ_RPC_NODE run --mode observer --rollup $ROLLUP_ADDRESS --history-mode archive --rpc-addr 0.0.0.0 --cors-origins * --cors-headers *
